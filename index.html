@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sketch</title>
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <script src="libraries/p5.min.js"></script>
+    <script src="libraries/p5.sound.min.js"></script>
+    <script>
+      function loadIframe(url) {
+        const iframe = document.getElementById('content-frame');
+        iframe.style.display = 'block'; // 顯示 iframe
+        iframe.src = url;
+      }
+
+      function hideIframe() {
+        const contentFrame = document.getElementById('content-frame');
+        const aboutBox = document.getElementById('aboutBox');
+        const lemonSection = document.getElementById('lemon-section');
+        const plumSection = document.getElementById('plum-section');
+        const flowerSection = document.getElementById('flower-section');
+        const blackSection = document.getElementById('black-section');
+        const buyFrame = document.getElementById('buyFrame');
+        const eventMap = document.getElementById('event-map-section');
+
+        contentFrame.style.display = 'none';
+        contentFrame.src = '';
+        if (aboutBox.classList.contains('show')) {
+          aboutBox.classList.remove('show');
+          setTimeout(() => {
+            aboutBox.style.display = 'none';
+          }, 500);
+        }
+        if (lemonSection) lemonSection.style.display = 'none';
+        if (plumSection) plumSection.style.display = 'none';
+        if (flowerSection) flowerSection.style.display = 'none';
+        if (blackSection) blackSection.style.display = 'none';
+        if (buyFrame) {
+          buyFrame.style.display = 'none';
+          buyFrame.src = '';
+        }
+        if (eventMap) eventMap.style.display = 'none';
+      }
+
+      function showAboutBox() {
+        hideAllPopups();
+        document.getElementById('aboutBox').style.display = 'flex';
+      }
+
+      function showLemon() {
+        hideIframe();
+        document.getElementById('lemon-section').style.display = 'flex';
+      }
+      function showPlum() {
+        hideIframe();
+        document.getElementById('plum-section').style.display = 'flex';
+      }
+      function showFlower() {
+        hideIframe();
+        document.getElementById('flower-section').style.display = 'flex';
+      }
+      function showBlack() {
+        hideIframe();
+        document.getElementById('black-section').style.display = 'flex';
+      }
+
+      function showBuyFrame() {
+        hideIframe();
+        const buyFrame = document.getElementById('buyFrame');
+        buyFrame.src = "https://www.myounger.com.tw/product-category/wheatgrass-enzyme-vinegar/";
+        buyFrame.style.display = "block";
+      }
+
+      function showEventMap() {
+        hideIframe();
+        document.getElementById('event-map-section').style.display = 'block';
+      }
+
+      function showTshirtDetail() {
+        hideIframe();
+        document.getElementById('tshirt-detail-section').style.display = 'flex';
+      }
+
+      function closeTshirtDetail() {
+        document.getElementById('tshirt-detail-section').style.display = 'none';
+      }
+
+      function showPosterDetail() {
+        hideIframe();
+        document.getElementById('poster-detail-section').style.display = 'flex';
+      }
+      function closePosterDetail() {
+        document.getElementById('poster-detail-section').style.display = 'none';
+      }
+
+      function showFactoryMap() {
+        hideIframe();
+        const iframe = document.getElementById('content-frame');
+        iframe.style.display = 'block';
+        iframe.src = "https://www.google.com/maps/place/%E9%BA%A5%E8%8A%BD%E5%93%A5%EF%BC%88%E9%95%B7%E6%B3%93%E5%A4%A9%E7%84%B6%E7%94%9F%E6%8A%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%EF%BC%89/@24.8871658,121.2060028,17z/data=!3m1!4b1!4m6!3m5!1s0x34683cd0887397d1:0x41b895074083cad4!8m2!3d24.8871658!4d121.2085777!16s%2Fg%2F1pzrpf1v1?entry=ttu&g_ep=EgoyMDI1MDUxMy4xIKXMDSoASAFQAw%3D%3D";
+      }
+
+      function showFactoryDetail() {
+        hideIframe();
+        document.getElementById('factory-detail-section').style.display = 'flex';
+      }
+      function closeFactoryDetail() {
+        document.getElementById('factory-detail-section').style.display = 'none';
+      }
+
+      function hideAllPopups() {
+        // 隱藏所有彈窗
+        document.getElementById('aboutBox').style.display = 'none';
+        let ids = [
+          'lemon-section', 'plum-section', 'flower-section', 'black-section',
+          'event-map-section', 'tshirt-detail-section', 'poster-detail-section',
+          'factory-detail-section'
+        ];
+        ids.forEach(id => {
+          let el = document.getElementById(id);
+          if (el) el.style.display = 'none';
+        });
+        // 隱藏 iframe
+        let iframe = document.getElementById('content-frame');
+        if (iframe) {
+          iframe.style.display = 'none';
+          iframe.src = '';
+        }
+        // 隱藏購買彈窗
+        let buyFrame = document.getElementById('buyFrame');
+        if (buyFrame) {
+          buyFrame.style.display = 'none';
+          buyFrame.src = '';
+        }
+      }
+
+      // 可選：點擊背景或ESC關閉iframe
+      document.addEventListener('keydown', function(e) {
+        if (e.key === "Escape") {
+          document.getElementById('buyFrame').style.display = "none";
+          document.getElementById('buyFrame').src = "";
+        }
+      });
+    </script>
+  </head>
+
+  <body>
+    <!-- 中間上方選單 -->
+    <ul class="menu" id="menu">
+      <li><a href="#home" onclick="hideIframe()">首頁</a></li>
+      <li><a href="#about" onclick="showAboutBox()">品牌故事</a></li>
+      <li class="dropdown">
+        <a href="#portfolio">熱門產品介紹</a>
+        <ul class="submenu">
+          <li><a href="#" onclick="showLemon()">香柚檸檬酵素醋</a></li>
+          <li><a href="#" onclick="showPlum()">青梅黑棗酵素醋</a></li>
+          <li><a href="#" onclick="showFlower()">荔枝桂花酵素醋</a></li>
+          <li><a href="#" onclick="showBlack()">調理烏醋</a></li>
+        </ul>
+      </li>
+      <li><a href="#quiz" onclick="loadIframe('https://www.myounger.com.tw/')">官方網站</a></li>
+      <li class="dropdown">
+        <a href="#events">活動與地點</a>
+        <ul class="submenu">
+          <li><a href="#" onclick="showPosterDetail()">活動海報</a></li>
+          <li><a href="#" onclick="showTshirtDetail()">紀念T-shirt</a></li>
+          <li><a href="#" onclick="showFactoryDetail()">醋工廠位置</a></li>
+        </ul>
+      </li>
+    </ul>
+
+    <!-- 自我介紹方格 -->
+    <div id="aboutBox" style="display: none;">
+      <div class="about-card">
+        <button class="close-btn about-close-btn" onclick="document.getElementById('aboutBox').style.display='none'">關閉</button>
+        <img src="images/Myounger-logo.png" alt="麥芽哥LOGO" class="about-logo">
+        <h1 class="about-title">品牌簡介</h1>
+        <div class="about-desc" style="text-align:left;">
+          <p>
+            在講求快速與便利的時代，「麥芽哥 MYOUNGER」選擇以慢工細活的釀造精神，為現代人打造一條回歸自然、守護健康的生活路徑。麥芽哥是一個來自台灣的健康食飲品牌，專注於小麥苗酵素醋的研發與推廣，堅持使用天然原料、無人工添加，致力讓每一位消費者在每日的一杯中，感受到身體的平衡與修復。
+          </p>
+          <p>
+            <strong>🌱 品牌理念｜回歸自然・活出年輕</strong><br>
+            麥芽哥的品牌名稱取自「麥芽」與「哥哥」，象徵著「天然植物的能量」與「守護健康的角色」。我們相信，真正的年輕不是外表的樣貌，而是來自身體的活力與內在的元氣。<br>
+            品牌創立的初衷，來自一位70多歲的職人，他擁有超過40年的釀醋經驗，致力於將小麥苗、糯米與紅麴結合，研發出能夠支持身體代謝、促進健康的酵素醋產品。
+          </p>
+          <p>
+            <strong>🍶 產品特色｜時間釀成的御品甘露</strong><br>
+            <b>純天然陶甕熟成發酵：</b><br>
+            麥芽哥採用古法陶甕釀造，歷經2年以上靜置熟成，讓酵素、醋酸與營養成分自然融合，不破壞任何天然活性成分。<br><br>
+            <b>精選台灣在地原料：</b><br>
+            原料來自安心契作的小麥苗、圓糯米、紅麴與天然水果，不含防腐劑、香精或化學添加劑，堅守食安與品質承諾。<br><br>
+            <b>豐富營養機能：</b><br>
+            富含多種天然酵素、維生素、礦物質與胺基酸，幫助調整體質、維持消化道健康、加速代謝循環，是現代人每日的元氣補給。<br><br>
+            <b>多樣化風味設計：</b><br>
+            口味包含青梅黑棗、荔枝桂花、檸檬、洛神、紫蘇、黑芝麻抹茶等多種選擇，適合不同族群依喜好選擇飲用方式。
+          </p>
+          <p>
+            <strong>👥 對顧客的承諾｜真材實料，用心釀造</strong><br>
+            麥芽哥不只是酵素醋的供應者，更是健康生活的推動者。我們積極推廣「喝得懂的醋」與「簡單有效的保健」理念，並透過：<br>
+            公開第三方檢驗報告，落實食品透明化；<br>
+            提供產品溯源資料，讓每一瓶醋都可以安心追蹤來源；<br>
+            建立品牌社群與健康講座，陪伴消費者實踐養身之道。
+          </p>
+          <p>
+            <strong>🔭 未來展望｜釀出台灣的新保健力量</strong><br>
+            隨著消費者健康意識的抬頭，麥芽哥將持續以「簡單・天然・有效」為核心，拓展更多功能型健康飲品與保健食品，並導入數位科技強化會員經營與精準行銷。<br>
+            我們期許麥芽哥不只是產品品牌，更是一個生活方式的提案者，帶領大家在忙碌生活中找回身心的節奏與能量。
+          </p>
+          <p>
+            <strong>📍 品牌資訊</strong><br>
+            官方網站：www.myounger.com.tw<br>
+            Instagram / Facebook：搜尋「麥芽哥 MYOUNGER」<br>
+            服務項目：小麥苗酵素醋、天然機能飲品、健康禮盒、企業合作客製
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 商品介紹區塊（只留這一個，預設隱藏） -->
+    <div class="product-section" id="lemon-section" style="display: none;">
+      <div class="product-image">
+        <img src="images/lemon.jpg" alt="香柚檸檬酵素醋">
+      </div>
+      <div class="product-info">
+        <h2>香柚檸檬酵素醋</h2>
+        <p>
+          香柚檸檬酵素醋融合柚子的清香與檸檬的酸甜，層次豐富，嚴選新鮮水果與天然酵素，帶來高級的味覺享受，是夏日消暑的首選飲品。
+        </p>
+        <button class="buy-btn" onclick="showBuyFrame()">立即購買</button>
+      </div>
+    </div>
+
+    <!-- 青梅黑棗酵素醋 -->
+    <div class="product-section" id="plum-section" style="display: none;">
+      <div class="product-image">
+        <img src="images/plum.jpg" alt="青梅黑棗酵素醋">
+      </div>
+      <div class="product-info">
+        <h2>青梅黑棗酵素醋</h2>
+        <p>
+          嚴選台灣青梅與黑棗，經長時間發酵釀造，酸甜適中，口感溫潤，富含多種有機酸與營養，是健康養生的絕佳選擇。
+        </p>
+        <button class="buy-btn" onclick="showBuyFrame()">立即購買</button>
+      </div>
+    </div>
+
+    <!-- 荔枝桂花酵素醋 -->
+    <div class="product-section" id="flower-section" style="display: none;">
+      <div class="product-image">
+        <img src="images/flower.jpg" alt="荔枝桂花酵素醋">
+      </div>
+      <div class="product-info">
+        <h2>荔枝桂花酵素醋</h2>
+        <p>
+          以新鮮荔枝與桂花釀造，香氣優雅，酸甜清新，融合花果的自然芬芳，帶來獨特的味覺享受。
+        </p>
+        <button class="buy-btn" onclick="showBuyFrame()">立即購買</button>
+      </div>
+    </div>
+
+    <!-- 調理烏醋 -->
+    <div class="product-section" id="black-section" style="display: none;">
+      <div class="product-image">
+        <img src="images/black.jpg" alt="調理烏醋">
+      </div>
+      <div class="product-info">
+        <h2>調理烏醋</h2>
+        <p>
+          採用多種天然原料精釀，色澤深邃，風味濃郁，適合各式料理調味，提升菜餚層次，是廚房必備的健康好醋。
+        </p>
+        <button class="buy-btn" onclick="showBuyFrame()">立即購買</button>
+      </div>
+    </div>
+
+    <!-- 活動與周邊商品地圖 -->
+    <div id="event-map-section" style="display:none;">
+      <h2 style="text-align:center; margin-top:30px;">活動與地點</h2>
+      <div class="event-map">
+        <div class="event-map-dot dot1"></div>
+        <div class="event-map-dot dot2"></div>
+        <div class="event-map-dot dot3"></div>
+        <div class="event-map-dot dot4"></div>
+        <!-- 海報圖示 -->
+        <div class="event-item" style="top: 20%; left: 25%;" onclick="showPosterDetail()">
+          <div class="event-icon">
+            <!-- SVG 內容不變 -->
+            <svg width="60" height="80" viewBox="0 0 60 80">
+              <rect x="5" y="5" width="50" height="70" rx="8" fill="#fffbe6" stroke="#bfa14a" stroke-width="3"/>
+              <rect x="15" y="20" width="30" height="10" fill="#bfa14a"/>
+              <rect x="15" y="35" width="30" height="6" fill="#e6d8b8"/>
+              <rect x="15" y="46" width="30" height="6" fill="#e6d8b8"/>
+            </svg>
+          </div>
+          <div class="event-label">活動海報</div>
+        </div>
+        <!-- T-shirt圖示 -->
+        <div class="event-item" style="top: 60%; left: 50%;" onclick="showTshirtDetail()">
+          <div class="event-icon">
+            <!-- 簡易T-shirt SVG -->
+            <svg width="70" height="70" viewBox="0 0 70 70">
+              <polygon points="10,15 35,5 60,15 55,25 45,20 45,60 25,60 25,20 15,25" fill="#fff" stroke="#bfa14a" stroke-width="3"/>
+              <rect x="25" y="20" width="20" height="40" fill="#f5efe6"/>
+            </svg>
+          </div>
+          <div class="event-label">紀念T-shirt</div>
+        </div>
+        <!-- 醋工廠圖示 -->
+        <div class="event-item" style="top: 35%; left: 70%;" onclick="showFactoryDetail()">
+          <div class="event-icon">
+            <!-- 簡易工廠SVG -->
+            <svg width="80" height="60" viewBox="0 0 80 60">
+              <rect x="10" y="30" width="60" height="20" fill="#e6d8b8" stroke="#bfa14a" stroke-width="3"/>
+              <rect x="20" y="20" width="10" height="10" fill="#bfa14a"/>
+              <rect x="50" y="15" width="10" height="15" fill="#bfa14a"/>
+              <rect x="35" y="40" width="10" height="10" fill="#fff"/>
+              <rect x="55" y="40" width="10" height="10" fill="#fff"/>
+            </svg>
+          </div>
+          <div class="event-label">醋工廠位置</div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      .event-map {
+        position: relative;
+        width: 80vw;
+        height: 60vh;
+        margin: 40px auto 0 auto;
+        background: #f5efe6;
+        border-radius: 30px;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        overflow: hidden;
+      }
+      .event-item {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+      }
+      .event-icon {
+        width: 90px;
+        height: 90px;
+        object-fit: contain;
+        border-radius: 18px;
+        background: #fff;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+        margin-bottom: 10px;
+        transition: transform 0.2s;
+      }
+      .event-item:hover .event-icon {
+        transform: scale(1.08) rotate(-5deg);
+      }
+      .event-label {
+        font-size: 1.1em;
+        color: #5a3c1a;
+        font-weight: bold;
+        background: rgba(255,255,255,0.85);
+        padding: 4px 14px;
+        border-radius: 12px;
+        margin-top: 2px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      }
+    </style>
+
+    <!-- 紀念T-shirt 詳細介紹 -->
+    <div id="tshirt-detail-section" style="display:none;">
+      <div class="tshirt-detail-card">
+        <img src="images/t_shirt.jpg" alt="紀念T-shirt" class="tshirt-detail-img">
+        <div class="tshirt-detail-info">
+          <h2>活動紀念T-shirt</h2>
+          <p>
+            參加本次活動即可獲得限量紀念T-shirt一件！<br>
+            簡約設計，舒適材質，讓你留下美好回憶。
+          </p>
+          <button class="close-btn" onclick="closeTshirtDetail()">關閉</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 活動海報 詳細介紹 -->
+    <div id="poster-detail-section" style="display:none;">
+      <div class="poster-detail-card">
+        <img src="images/poster.jpg" alt="活動海報" class="poster-detail-img">
+        <button class="close-btn poster-close-btn" onclick="closePosterDetail()">關閉</button>
+      </div>
+    </div>
+
+    <!-- 醋工廠位置 詳細介紹 -->
+    <div id="factory-detail-section" style="display:none;">
+      <div class="factory-detail-card">
+        <img src="images/place.jpg" alt="醋工廠位置" class="factory-detail-img">
+        <div class="factory-detail-info">
+          <h2>醋工廠位置</h2>
+          <p class="factory-address">
+            325桃園市龍潭區工五路139巷116弄51號
+          </p>
+          <button class="close-btn" onclick="closeFactoryDetail()">關閉</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- iframe 顯示區域 -->
+    <iframe id="content-frame" src="" frameborder="0" style="display: none;"></iframe>
+    <iframe id="buyFrame"
+        src=""
+        style="display:none; width:90vw; height:80vh; position:fixed; top:12vh; left:5vw; z-index:999; border-radius:18px; box-shadow:0 8px 32px rgba(0,0,0,0.18); background:#fff;"
+        frameborder="0"></iframe>
+
+    <script src="sketch.js"></script>
+  </body>
+</html>

@@ -1,0 +1,639 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+canvas {
+  display: block;
+  z-index: 0; /* 最底層 */
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* 選單樣式 */
+.menu {
+  position: fixed; /* 固定選單位置 */
+  top: 10px; /* 距離畫面頂部 10px */
+  left: 50%; /* 水平置中 */
+  transform: translateX(-50%); /* 將選單向左移動一半寬度，達到完全置中 */
+  background: rgba(0, 0, 30, 0.95); /* 深藍色背景，降低透明度 */
+  display: flex;
+  flex-direction: row; /* 水平排列選單項目 */
+  gap: 15px; /* 選單項目之間的間距 */
+  padding: 10px 20px; /* 內邊距 */
+  list-style: none;
+  margin: 0;
+  z-index: 2;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); /* 添加陰影效果 */
+  border-radius: 5px;
+}
+
+.menu .dropdown {
+  position: relative;
+}
+
+.menu li {
+  margin: 0;
+  padding: 0;
+}
+
+.menu a {
+  text-decoration: none;
+  color: white; /* 項目文字顏色 */
+  font-size: 16px; /* 項目文字大小 */
+  font-weight: bold;
+  padding: 8px 15px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.menu a:hover {
+  color: #ffd700; /* 滑鼠懸停時文字變為金色 */
+  text-shadow: 0px 0px 5px rgba(255, 215, 0, 0.8); /* 減弱發光效果 */
+  transform: scale(1.05); /* 輕微放大效果 */
+}
+
+.menu .submenu {
+  display: none; /* 預設隱藏子選單 */
+  position: absolute;
+  top: 100%; /* 子選單顯示在主選單項目下方 */
+  left: 0;
+  z-index: 10;
+  background: rgba(0, 0, 50, 0.95); /* 深藍色背景，降低透明度 */
+  list-style: none;
+  padding: 10px 0;
+  margin: 0;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); /* 添加陰影效果 */
+  border-radius: 5px;
+  white-space: nowrap; /* 防止子選單內容換行 */
+}
+
+.menu .dropdown:hover .submenu {
+  display: block; /* 滑鼠懸停時顯示子選單 */
+}
+
+.submenu li {
+  padding: 5px 15px;
+}
+
+.submenu li a {
+  background-color: transparent;
+  color: white;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.submenu li a:hover {
+  color: #ffd700; /* 滑鼠懸停時文字變為金色 */
+  text-shadow: 0px 0px 5px rgba(255, 215, 0, 0.8); /* 減弱發光效果 */
+}
+
+iframe {
+  position: fixed;
+  top: 15%; /* 調整位置，避免被選單遮擋 */
+  left: 10%;
+  width: 80%;
+  height: 70%; /* 調整高度，避免被切掉 */
+  background-color: rgba(255, 255, 255, 0.9); /* 背景透明度 */
+  z-index: 10; /* 顯示在最上層 */
+  border: none;
+  display: none; /* 預設隱藏 */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* 添加陰影效果 */
+}
+
+#aboutBox {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.35);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+}
+
+.about-card {
+  background: #fffbe6;
+  border-radius: 28px;
+  box-shadow: 0 8px 32px rgba(191,161,74,0.13);
+  max-width: 480px;
+  width: 92vw;
+  max-height: 90vh;
+  padding: 36px 32px 32px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: popIn 0.3s;
+  overflow-y: auto;
+  position: relative;
+  justify-content: flex-start;
+}
+
+.about-logo {
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+  border-radius: 18px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 12px rgba(191,161,74,0.10);
+  background: #fff;
+  border: 2px solid #e6d8b8;
+}
+
+.about-title {
+  color: #bfa14a;
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 8px;
+  letter-spacing: 0.08em;
+  text-shadow: 0 2px 8px rgba(191,161,74,0.10), 0 1px 0 #fff;
+}
+
+.about-brand {
+  color: #5a3c1a;
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 18px;
+}
+
+.about-desc {
+  color: #5a3c1a;
+  font-size: 1.08em;
+  line-height: 1.7;
+  text-align: left;
+  width: 100%;
+}
+
+.about-desc strong {
+  color: #bfa14a;
+  font-weight: bold;
+}
+
+.about-close-btn {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: #bfa14a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 22px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.2s;
+  z-index: 2;
+}
+.about-close-btn:hover {
+  background: #a68c3f;
+}
+
+/* 晃動動畫 */
+@keyframes wobble {
+  0% {
+    transform: translateX(-50%) scaleY(1) rotate(0deg);
+  }
+  25% {
+    transform: translateX(-50%) scaleY(1) rotate(2deg);
+  }
+  50% {
+    transform: translateX(-50%) scaleY(1) rotate(-2deg);
+  }
+  75% {
+    transform: translateX(-50%) scaleY(1) rotate(1deg);
+  }
+  100% {
+    transform: translateX(-50%) scaleY(1) rotate(0deg);
+  }
+}
+
+/* 商品介紹區塊高級感設計 */
+.product-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  padding: 40px 60px;
+  margin: 60px auto 0 auto;
+  max-width: 900px;
+  gap: 48px;
+  position: relative;
+  z-index: 20;
+  /* 新增壁紙背景 */
+  background: url('images/background.jpg') no-repeat center center;
+  background-size: cover;
+  /* 可選：加一層半透明白色讓內容更清楚 */
+  /* background-color: rgba(255,255,255,0.85); */
+}
+
+.product-image img {
+  width: 320px;
+  height: 320px;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  border: 4px solid #fff;
+}
+
+.product-info {
+  flex: 1;
+}
+
+.product-info h2 {
+  font-size: 2.5rem;
+  color: #2d3748;
+  margin-bottom: 18px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.product-info p {
+  font-size: 1.25rem;
+  color: #4a5568;
+  margin-bottom: 32px;
+  line-height: 1.8;
+}
+
+.buy-btn {
+  background: linear-gradient(90deg, #ffd700 60%, #ffb300 100%);
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 14px 38px;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(255,215,0,0.18);
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.buy-btn:hover {
+  background: linear-gradient(90deg, #ffb300 60%, #ffd700 100%);
+  transform: translateY(-2px) scale(1.04);
+}
+
+/* 活動與周邊商品地圖區塊樣式 */
+#event-map-section {
+  display: none;
+  margin: 80px auto 0 auto; /* 往下移一點 */
+  max-width: 1000px;
+  min-height: 500px;
+  background: #f5efe6;
+  border-radius: 30px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  position: relative;
+  z-index: 15;
+  padding-bottom: 40px;
+}
+
+.event-map {
+  position: relative;
+  width: 95vw;
+  max-width: 480px;
+  height: 340px;
+  margin: 48px auto 0 auto;
+  background: #f5efe6;
+  border-radius: 30px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.event-item {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.event-icon {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  margin-bottom: 10px;
+  transition: transform 0.2s;
+}
+
+.event-item:hover .event-icon {
+  transform: scale(1.08) rotate(-5deg);
+}
+
+.event-label {
+  font-size: 1.1em;
+  color: #5a3c1a;
+  font-weight: bold;
+  background: rgba(255,255,255,0.85);
+  padding: 4px 14px;
+  border-radius: 12px;
+  margin-top: 2px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+#tshirt-detail-section {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.45);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+}
+
+.tshirt-detail-card {
+  background: #fffbe6;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 36px 48px;
+  gap: 36px;
+  max-width: 600px;
+  width: 90vw;
+  animation: popIn 0.3s;
+}
+
+.tshirt-detail-img {
+  width: 180px;
+  height: 180px;
+  object-fit: contain;
+  border-radius: 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  background: #fff;
+}
+
+.tshirt-detail-info {
+  flex: 1;
+}
+
+.tshirt-detail-info h2 {
+  margin-top: 0;
+  color: #bfa14a;
+  font-size: 2em;
+  margin-bottom: 12px;
+}
+
+.tshirt-detail-info p {
+  font-size: 1.15em;
+  color: #5a3c1a;
+  margin-bottom: 18px;
+}
+
+.close-btn {
+  background: #bfa14a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 24px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.close-btn:hover {
+  background: #a68c3f;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+#poster-detail-section {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.7);
+  z-index: 10000;
+  align-items: center;
+  justify-content: center;
+}
+
+.poster-detail-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90vw;
+  height: 90vh;
+  background: transparent;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  overflow: hidden;
+}
+
+.poster-detail-img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+  object-fit: contain;
+  background: #fff;
+}
+
+.poster-close-btn {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: #bfa14a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 24px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.2s;
+  z-index: 2;
+}
+.poster-close-btn:hover {
+  background: #a68c3f;
+}
+
+#factory-detail-section {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.45);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+}
+
+.factory-detail-card {
+  background: #fffbe6;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 36px 48px;
+  gap: 36px;
+  max-width: 600px;
+  width: 90vw;
+  animation: popIn 0.3s;
+}
+
+.factory-detail-img {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  background: #fff;
+}
+
+.factory-detail-info {
+  flex: 1;
+}
+
+.factory-detail-info h2 {
+  margin-top: 0;
+  color: #bfa14a;
+  font-size: 2em;
+  margin-bottom: 12px;
+}
+
+.factory-address {
+  font-size: 1.1em;
+  color: #5a3c1a;
+  margin-bottom: 18px;
+  font-weight: bold;
+  letter-spacing: 0.04em;
+}
+
+.close-btn {
+  background: #bfa14a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 24px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.close-btn:hover {
+  background: #a68c3f;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+/* 手機版RWD調整 */
+@media (max-width: 600px) {
+  .menu {
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px 4vw;
+    font-size: 15px;
+    top: 0;
+    left: 0;
+    transform: none;
+    width: 100vw;
+    border-radius: 0 0 10px 10px;
+  }
+  .menu a, .submenu li a {
+    font-size: 15px;
+    padding: 8px 8px;
+  }
+  .product-section {
+    flex-direction: column;
+    padding: 18px 2vw;
+    gap: 18px;
+    margin: 24px auto 0 auto;
+    max-width: 98vw;
+    background-size: cover;
+  }
+  .product-image img {
+    width: 90vw;
+    max-width: 320px;
+    height: 38vw;
+    max-height: 220px;
+  }
+  .product-info h2 {
+    font-size: 1.5rem;
+  }
+  .product-info p {
+    font-size: 1rem;
+  }
+  .buy-btn {
+    font-size: 1rem;
+    padding: 10px 18px;
+  }
+  #aboutBox .about-card,
+  .tshirt-detail-card,
+  .factory-detail-card {
+    flex-direction: column;
+    padding: 18px 8px;
+    gap: 12px;
+    max-width: 98vw;
+    width: 98vw;
+  }
+  .about-card {
+    padding: 18px 8px 18px 8px;
+  }
+  .about-logo,
+  .tshirt-detail-img,
+  .factory-detail-img {
+    width: 90px;
+    height: 90px;
+  }
+  .about-title,
+  .tshirt-detail-info h2,
+  .factory-detail-info h2 {
+    font-size: 1.2em;
+  }
+  .about-desc,
+  .tshirt-detail-info p,
+  .factory-detail-info p {
+    font-size: 1em;
+  }
+  iframe {
+    top: 8%;
+    left: 2%;
+    width: 96vw;
+    height: 80vh;
+  }
+  #event-map-section {
+    margin: 24px auto 0 auto;
+    min-height: 220px;
+    max-width: 99vw;
+    padding-bottom: 16px;
+  }
+  .event-map {
+    width: 98vw;
+    max-width: 99vw;
+    height: 38vw;
+    max-height: 180px;
+    margin: 18px auto 0 auto;
+  }
+  .event-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 4px;
+  }
+  .event-label {
+    font-size: 0.95em;
+    padding: 2px 8px;
+  }
+  .poster-detail-card {
+    width: 98vw;
+    height: 60vh;
+  }
+  .poster-detail-img {
+    max-width: 98vw;
+    max-height: 60vh;
+  }
+}
